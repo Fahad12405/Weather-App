@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+    
+        body {
+            background-image: url("https://images.unsplash.com/photo-1562494400-5b335a653209?auto=format&fit=crop&q=80&w=1362&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+             background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+             background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+    
+        .container {
+                 border: 1px solid #5eade2; 
+                 border-radius: 5px;
+                 padding: 20px;
+                 background-color: rgba(240, 240, 240, 0.7); 
+                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                 transition: all 0.3s;
+                 width: 1000px;
+}
+
+        .container:hover {
+                transform: scale(1.02);
+                 border-color: #e74c3c;
+                 background-color: rgba(240, 240, 240, 1); 
+}
+    
+        .weather__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+    
+        input {
+            border: none;
+            background-color: #e3e9ee;
+            outline: none;
+            color: #201f1f;
+            padding: 0.7rem 2rem;
+            border-radius: 5px;
+            width: 70%;
+            font-size: 18px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    
+        input::placeholder {
+            color: #141414;
+            
+        }
+    
+        .weather__search {
+            position: relative;
+      
+        }
+    
+        .weather__search i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 22px;
+            color: #ccc;
+    
+        }
+    
+        .weather__units {
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    
+        .weather__units span {
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+    
+        .weather__units span:first-child {
+            margin-right: 0.5rem;
+        }
+    
+        .weather__units span:hover {
+            color: #00b0ff;
+        }
+    
+        .weather__body {
+            text-align: center;
+            margin-top: 2rem;
+        }
+    
+        .weather__datetime {
+            font-size: 18px;
+            color: #aaa;
+        }
+    
+        .weather__forecast {
+            background-color: #98c9eb;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 20px;
+            margin: 1rem 0;
+            text-transform: uppercase;
+        }
+    
+        .weather__icon img {
+            width: 100px;
+            margin: 1rem 0;
+        }
+    
+        .weather__temperature {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+    
+        .weather__minmax {
+            display: flex;
+            justify-content: center;
+            font-size: 18px;
+            margin: 1rem 0;
+        }
+    
+        .weather__minmax p {
+            margin: 0 1.5rem;
+        }
+    
+        .weather__info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 1rem;
+            margin: 2rem 100;
+            padding-left: 180px;
+        }
+    
+        .weather__card {
+            display: flex;
+            align-items: center;
+    background-color: #98c9eb;
+            padding: 0.5rem;
+            border-radius: 10px;
+            width: 200px;
+            
+        }
+    
+        .weather__card i {
+            font-size: 2rem;
+            margin-right: 1.5rem;
+            color: #00b0ff;
+        }
+    
+        .weather__card p {
+            font-size: 20px;
+            color: #000000;
+        }
+    
+        @media (max-width: 1024px) {
+            .container {
+                width: 90%;
+            }
+        }
+    
+        @media (max-width: 600px) {
+            .weather__header {
+                flex-direction: column;
+                text-align: center;
+            }
+    
+            .weather__search {
+                margin-top: 1rem;
+            }
+    
+            input {
+                width: 100%;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="container">
+        <div class="weather__header">
+            <form class="weather__search">
+                <input type="text" placeholder="Search for  city..." class="weather__searchform">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </form> 
+            <div class="weather__units">
+                <span class="weather_unit_celsius">&#176C</span>
+                <span class="weather_unit_farenheit">&#176F</span>
+            </div>
+        </div>
+        <div class="weather__body">
+            <h1 class="weather__city"></h1>
+            <div class="weather__datetime">
+            </div>
+            <div class="weather__forecast"></div>
+            <div class="weather__icon">
+            </div>
+            <p class="weather__temperature">
+            </p>
+            <div class="weather__minmax">
+                <p>Min: 12&#176</p>
+                <p>Max: 16&#176</p>
+            </div>
+        </div>
+
+        <div class="weather__info">
+            <div class="weather__card">
+                <i class="fa-solid fa-temperature-full"></i>
+                <div>
+                    <p>Real Feel</p>
+                    <p class="weather__realfeel">18&#176</p>
+                </div>
+            </div>
+            <div class="weather__card">
+                <i class="fa-solid fa-droplet"></i>
+                <div>
+                    <p>Humidity</p>
+                    <p class="weather__humidity">18&#176</p>
+                </div>
+            </div>
+            <div class="weather__card">
+                <i class="fa-solid fa-wind"></i>
+                <div>
+                    <p>Wind</p>
+                    <p class="weather__wind">18&#176</p>
+                </div>
+            </div>
+            <div class="weather__card">
+                <i class="fa-solid fa-gauge-high"></i>
+                <div>
+                    <p>Pressure</p>
+                    <p class="weather__pressure">18&#176</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://kit.fontawesome.com/a692e1c39f.js" crossorigin="anonymous"></script>
+    <script>
+      
+let currCity = "London";
+let units = "metric";
+
+
+let city = document.querySelector(".weather__city");
+let datetime = document.querySelector(".weather__datetime");
+let weather__forecast = document.querySelector('.weather__forecast');
+let weather__temperature = document.querySelector(".weather__temperature");
+let weather__icon = document.querySelector(".weather__icon");
+let weather__minmax = document.querySelector(".weather__minmax")
+let weather__realfeel = document.querySelector('.weather__realfeel');
+let weather__humidity = document.querySelector('.weather__humidity');
+let weather__wind = document.querySelector('.weather__wind');
+let weather__pressure = document.querySelector('.weather__pressure');
+
+
+document.querySelector(".weather__search").addEventListener('submit', e => {
+    let search = document.querySelector(".weather__searchform");
+
+    e.preventDefault();
+
+    currCity = search.value;
+
+    getWeather();
+
+    search.value = ""
+})
+
+document.querySelector(".weather_unit_celsius").addEventListener('click', () => {
+    if(units !== "metric"){
+ 
+        units = "metric"
+      
+        getWeather()
+    }
+})
+
+document.querySelector(".weather_unit_farenheit").addEventListener('click', () => {
+    if(units !== "imperial"){
+    
+        units = "imperial"
+      
+        getWeather()
+    }
+})
+
+function convertTimeStamp(timestamp, timezone){
+     const convertTimezone = timezone / 3600; 
+
+    const date = new Date(timestamp * 1000);
+    
+    const options = {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        timeZone: `Etc/GMT${convertTimezone >= 0 ? "-" : "+"}${Math.abs(convertTimezone)}`,
+        hour12: true,
+    }
+    return date.toLocaleString("en-US", options)
+   
+}
+
+ 
+
+function convertCountryCode(country){
+    let regionNames = new Intl.DisplayNames(["en"], {type: "region"});
+    return regionNames.of(country)
+}
+
+function getWeather(){
+    const API_KEY = '64f60853740a1ee3ba20d0fb595c97d5'
+
+fetch(`https://api.openweathermap.org/data/2.5/weather?q=${currCity}&appid=${API_KEY}&units=${units}`).then(res => res.json()).then(data => {
+    console.log(data)
+    city.innerHTML = `${data.name}, ${convertCountryCode(data.sys.country)}`
+    datetime.innerHTML = convertTimeStamp(data.dt, data.timezone); 
+    weather__forecast.innerHTML = `<p>${data.weather[0].main}`
+    weather__temperature.innerHTML = `${data.main.temp.toFixed()}&#176`
+    weather__icon.innerHTML = `   <img src="http://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png" />`
+    weather__minmax.innerHTML = `<p>Min: ${data.main.temp_min.toFixed()}&#176</p><p>Max: ${data.main.temp_max.toFixed()}&#176</p>`
+    weather__realfeel.innerHTML = `${data.main.feels_like.toFixed()}&#176`
+    weather__humidity.innerHTML = `${data.main.humidity}%`
+    weather__wind.innerHTML = `${data.wind.speed} ${units === "imperial" ? "mph": "m/s"}` 
+    weather__pressure.innerHTML = `${data.main.pressure} hPa`
+})
+}
+
+document.body.addEventListener('load', getWeather())
+    </script>
+</body>
+</html>
